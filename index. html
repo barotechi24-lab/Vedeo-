@@ -1,1 +1,114 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Text-to-Video Studio</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Arial, sans-serif;
+      background: #101827; color: #f8fafc;
+    }
+    main { max-width: 720px; margin: auto; padding: 24px 16px; }
+    h1 { font-size: 32px; margin-bottom: 8px; }
+    p { color: #cbd5e1; line-height: 1.6; }
+    .panel {
+      background: #1e293b; padding: 20px;
+      border-radius: 16px; margin-top: 20px;
+    }
+    label { display: block; margin-bottom: 10px; font-weight: bold; }
+    textarea {
+      width: 100%; min-height: 150px; padding: 14px;
+      border-radius: 10px; border: 1px solid #475569;
+      background: #0f172a; color: white; font: inherit;
+    }
+    button, .link {
+      display: block; width: 100%; margin-top: 14px;
+      padding: 14px; border: 0; border-radius: 10px;
+      background: #38bdf8; color: #082f49;
+      font-weight: bold; text-align: center;
+      text-decoration: none; cursor: pointer;
+    }
+    .secondary { background: #334155; color: white; }
+    .note { font-size: 13px; }
+    footer { margin-top: 28px; font-size: 12px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>🎬 Text-to-Video Studio</h1>
+    <p>Turn your imagination into video. Write a scene,
+       then open an existing AI video generator.</p>
+
+    <section class="panel">
+      <label for="prompt">Describe your video</label>
+      <textarea id="prompt"
+        placeholder="Describe the characters, setting, action and camera style...">A realistic cinematic scene in an East African town. A young orphan boy sits beside a busy market as matatus pass and traders sell vegetables. Natural daylight, emotional storytelling, compassionate documentary style.</textarea>
+
+      <button onclick="copyPrompt()">📋 Copy my prompt</button>
+
+      <a class="link" href="https://huggingface.co/spaces?category=video-generation&sort=likes" target="_blank" rel="noopener">
+        Open AI Video Generators ↗
+      </a>
+
+      <button class="secondary" onclick="showHelp()">
+        How to generate my video
+      </button>
+
+      <p id="message" class="note" aria-live="polite">
+        No account or payment is required to use this page.
+        The external generator may have its own requirements.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>How it works</h2>
+      <p>1. Write a detailed scene description.</p>
+      <p>2. Copy the prompt.</p>
+      <p>3. Open a working free video demo.</p>
+      <p>4. Paste the prompt into the demo and generate.</p>
+      <p>5. Save the generated clip if downloads are available.</p>
+    </section>
+
+    <footer>
+      Independent demo launcher. Video generation is provided
+      by third-party services and is not guaranteed to be free
+      or continuously available.
+    </footer>
+  </main>
+
+  <script>
+    function copyPrompt() {
+      const prompt = document.getElementById("prompt").value;
+      const message = document.getElementById("message");
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(prompt).then(() => {
+          message.textContent = "Prompt copied! Open a video demo and paste it.";
+        }).catch(() => fallbackCopy(prompt));
+      } else {
+        fallbackCopy(prompt);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const box = document.getElementById("prompt");
+      box.focus();
+      box.select();
+      document.getElementById("message").textContent =
+        "Select the text above and choose Copy from your phone menu.";
+    }
+
+    function showHelp() {
+      document.getElementById("message").textContent =
+        "Choose a working Text-to-Video Space. Paste your prompt, " +
+        "adjust available settings and tap Generate. Some demos " +
+        "may require sign-in or have usage limits.";
+    }
+  </script>
+</body>
+</html>
+
